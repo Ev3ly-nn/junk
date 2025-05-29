@@ -1,0 +1,25 @@
+Tab1:CreateButton({
+   Name = "Huge Hunter GUI",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Ev3ly-nn/Working.Scripts/refs/heads/main/Huge-Hunter"))()
+      Rayfield:Notify({
+         Title = "Script Activated!",
+         Content = "Thanks for using Huge Hunter",
+         Duration = 5,
+         Image = 4483362458,
+      })
+   end,
+})
+
+Tab1:CreateButton({
+   Name = "Gem Spawner GUI",
+   Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/Ev3ly-nn/Working.Scripts/refs/heads/main/Gem-Spawner"))()
+      Rayfield:Notify({
+         Title = "Script Activated!",
+         Content = "Thanks for using Gem Spawner!!",
+         Duration = 5,
+         Image = 4483362458,
+      })
+   end,
+})
