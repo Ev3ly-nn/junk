@@ -1,0 +1,115 @@
+local Toggle = Tab4:CreateToggle({
+   Name = "Anti-AFK",
+   CurrentValue = false,
+   Flag = "AntiAFKToggle",
+   Callback = function(Value)
+      if Value then
+         if getconnections then
+            for i,v in pairs(getconnections(game:GetService("Players").LocalPlayer.Idled)) do
+               v:Disable()
+            end
+         end
+         AntiAFKConnection = game:GetService("Players").LocalPlayer.Idled:Connect(function()
+            game:GetService("VirtualUser"):Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+            task.wait(1)
+            game:GetService("VirtualUser"):Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+         end)
+      else
+         if AntiAFKConnection then
+            AntiAFKConnection:Disconnect()
+         end
+      end
+   end,
+})
+
+Tab4:CreateButton({
+   Name = "Unlock FPS (to 240)",
+   Callback = function()
+      setfpscap(240)
+      Rayfield:Notify({
+         Title = "FPS Unlocked",
+         Content = "Max FPS set to 240",
+         Duration = 5,
+         Image = 4483362458,
+      })
+   end,
+})
+
+Tab4:CreateButton({
+   Name = "Rejoin Game",
+   Callback = function()
+      game:GetService("TeleportService"):Teleport(game.PlaceId, game:GetService("Players").LocalPlayer)
+   end,
+})
+
+Tab4:CreateButton({
+   Name = "Server Hop",
+   Callback = function()
+      local Http = game:GetService("HttpService")
+      local TPS = game:GetService("TeleportService")
+      local Api = "https://games.roblox.com/v1/games/" .. game.PlaceId .. "/servers/Public?sortOrder=Asc&limit=100"
+      local Servers = Http:JSONDecode(game:HttpGet(Api)).data
+      for i,v in pairs(Servers) do
+         if v.playing < v.maxPlayers then
+            TPS:TeleportToPlaceInstance(game.PlaceId, v.id)
+            break
+         end
+      end
+   end,
+})
+
+Tab4:CreateSlider({
+   Name = "Walk Speed",
+   Range = {16, 50},
+   Increment = 1,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "SpeedSlider",
+   Callback = function(Value)
+      local character = game.Players.LocalPlayer.Character
+      if character then
+         local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+         if humanoid then
+            humanoid.WalkSpeed = Value
+         end
+      end
+   end,
+})
+
+Tab4:CreateSlider({
+   Name = "Jump Power",
+   Range = {50, 200},
+   Increment = 5,
+   Suffix = "Power",
+   CurrentValue = 50,
+   Flag = "JumpPowerSlider",
+   Callback = function(Value)
+      local character = game.Players.LocalPlayer.Character
+      if character then
+         local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+         if humanoid then
+            humanoid.JumpPower = Value
+         end
+      end
+   end,
+})
+
+Tab4:CreateButton({
+   Name = "Reset Speed & Jump Power",
+   Callback = function()
+      local character = game.Players.LocalPlayer.Character
+      if character then
+         local humanoid = character:FindFirstChildWhichIsA("Humanoid")
+         if humanoid then
+            humanoid.WalkSpeed = 16
+            humanoid.JumpPower = 50
+            Rayfield:Notify({
+               Title = "Stats Reset",
+               Content = "WalkSpeed and JumpPower reset to default.",
+               Duration = 4,
+               Image = 4483362458,
+            })
+         end
+      end
+   end,
+})
