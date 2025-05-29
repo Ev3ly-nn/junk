@@ -1,0 +1,11 @@
+Tab3:CreateButton({
+   Name = "Idiot Hub",
+   Callback = function()
+      Rayfield:Notify({
+         Title = "🚧 Coming Soon",
+         Content = "This feature is not available yet. Stay tuned!",
+         Duration = 5,
+         Image = 4483362458,
+      })
+   end,
+})
